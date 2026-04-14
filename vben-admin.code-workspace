@@ -9,6 +9,10 @@
       "path": "apps/web-antd"
     },
     {
+      "name": "bst-web",
+      "path": "apps/web-antd-v2"
+    },
+    {
       "name": "@vben/web-antdv-next",
       "path": "apps/web-antdv-next"
     },
