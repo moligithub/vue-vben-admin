@@ -20,6 +20,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   const loginLoading = ref(false);
 
+  function setAccessToken(token: string | null) {
+    accessStore.setAccessToken(token);
+  }
+
   /**
    * 异步处理登录操作
    * Asynchronously handle the login process
@@ -113,5 +117,6 @@ export const useAuthStore = defineStore('auth', () => {
     fetchUserInfo,
     loginLoading,
     logout,
+    setAccessToken,
   };
 });

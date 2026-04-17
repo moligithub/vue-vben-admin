@@ -1,0 +1,69 @@
+<template>
+  <div class="systemdata-log-detail">
+    <a-modal
+      v-model:open="visible"
+      title="日志详情"
+      width="800px"
+      @ok="handleOk"
+      @cancel="handleCancel"
+    >
+      <a-descriptions :column="2" bordered>
+        <a-descriptions-item label="日志标题">{{
+          logData.title
+        }}</a-descriptions-item>
+        <a-descriptions-item label="日志类型">{{
+          getLogTypeText(logData.logType)
+        }}</a-descriptions-item>
+        <a-descriptions-item label="操作人">{{
+          logData.operator
+        }}</a-descriptions-item>
+        <a-descriptions-item label="操作时间">{{
+          logData.creatorTime
+        }}</a-descriptions-item>
+        <a-descriptions-item label="IP地址" :span="2">{{
+          logData.ip
+        }}</a-descriptions-item>
+        <a-descriptions-item label="详细描述" :span="2">{{
+          logData.description
+        }}</a-descriptions-item>
+      </a-descriptions>
+    </a-modal>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, reactive } from 'vue';
+
+const visible = ref(false);
+const logData = reactive({
+  title: '',
+  logType: 1,
+  operator: '',
+  creatorTime: '',
+  ip: '',
+  description: '',
+});
+
+function getLogTypeText(type: number) {
+  if (type === 1) return '操作日志';
+  if (type === 2) return '登录日志';
+  return '异常日志';
+}
+
+function openModal(data?: any) {
+  visible.value = true;
+  if (data) {
+    Object.assign(logData, data);
+  }
+}
+
+function handleOk() {
+  visible.value = false;
+}
+
+function handleCancel() {
+  visible.value = false;
+}
+
+defineExpose({ openModal });
+</script>
