@@ -263,10 +263,10 @@ const { accessToken } = await requestClient.post(url, data);
 
 #### 13.3.2 字段迁移示例
 
-| 场景 | v5 字段 | v2 字段 | 处理方式 |
-| --- | --- | --- | --- |
-| **登录参数** | `username` | `account` | **保留 v2 的 `account`** |
-| **用户名字段** | `username` | `name` | **保留 v2 的 `name`** |
+| 场景           | v5 字段    | v2 字段   | 处理方式                 |
+| -------------- | ---------- | --------- | ------------------------ |
+| **登录参数**   | `username` | `account` | **保留 v2 的 `account`** |
+| **用户名字段** | `username` | `name`    | **保留 v2 的 `name`**    |
 
 #### 13.3.3 为什么以 v2 为准？
 
@@ -285,7 +285,7 @@ const v5Params = {
 
 // 迁移到 v2 业务字段
 const v2Params = {
-  account: v5Params.username,  // username → account
+  account: v5Params.username, // username → account
   password: v5Params.password,
 };
 ```
