@@ -1,11 +1,12 @@
-import { requestClient } from '#/api/request';
 import type { LoginParams } from './model/userModel';
 
+import { requestClient } from '#/api/request';
+
 enum Api {
-  Prefix = '/bot/authsession',
+  GetUserInfo = '/bot/authsession/CurrentUser',
   Login = '/bot/authsession/Login',
   Logout = '/bot/authsession/Logout',
-  GetUserInfo = '/bot/authsession/CurrentUser',
+  Prefix = '/bot/authsession',
   Unlock = '/bot/authsession/LockScreen',
 }
 
