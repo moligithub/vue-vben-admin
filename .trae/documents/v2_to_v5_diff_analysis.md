@@ -245,7 +245,52 @@ const { accessToken } = await requestClient.post(url, data);
 11. **API 响应格式差异**：v2 的 `res.data.token` 在 v5 中直接是 `res.token`（因为 responseReturn: 'data'）
 12. **requestClient 调用方式**：v5 使用 `requestClient.post(url, data, config)` 而不是 `requestClient.post({ url, data, ... })`
 
-### 13.3 迁移后验证清单
+### 13.3 业务字段迁移规则
+
+**核心原则**：业务字段以 v2 为准，因为 v2 的字段名是实际与后端 API 对应的业务字段名。
+
+#### 13.3.1 字段处理规则
+
+```
+字段处理规则：
+├── 业务字段（如 account, name, realName 等）
+│   └── 以 v2 为准，适配 v5 到 v2
+├── 系统字段（如 id, createTime 等）
+│   └── 保持不变或根据需要适配
+└── API 请求/响应字段
+    └── 以 v2 的后端 API 为准
+```
+
+#### 13.3.2 字段迁移示例
+
+| 场景 | v5 字段 | v2 字段 | 处理方式 |
+| --- | --- | --- | --- |
+| **登录参数** | `username` | `account` | **保留 v2 的 `account`** |
+| **用户名字段** | `username` | `name` | **保留 v2 的 `name`** |
+
+#### 13.3.3 为什么以 v2 为准？
+
+1. **后端 API 期望**：后端 API 期望的字段名是 v2 的字段名
+2. **v5 只是前端默认值**：v5 只是前端框架的默认字段名，不是业务字段名
+3. **迁移时需要适配**：迁移时要将 v5 的字段适配成 v2 的字段，以确保与后端 API 对应
+
+#### 13.3.4 迁移示例
+
+```typescript
+// v5 登录参数
+const v5Params = {
+  username: 'admin',
+  password: '123456',
+};
+
+// 迁移到 v2 业务字段
+const v2Params = {
+  account: v5Params.username,  // username → account
+  password: v5Params.password,
+};
+```
+
+### 13.4 迁移后验证清单
 
 - [ ] TypeScript 类型检查通过
 - [ ] 构建成功
