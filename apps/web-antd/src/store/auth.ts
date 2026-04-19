@@ -1,17 +1,22 @@
 import type { Recordable, UserInfo } from '@vben/types';
 
+import type { LoginParams } from '#/api/biz/basic/model/userModel';
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
+import { AesEncryption, encryptByMd5 } from '@vben/utils';
 
-import { notification } from 'ant-design-vue';
+import { message, notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import { doLogout, getUserInfo, loginApi } from '#/api';
 import { $t } from '#/locales';
+
+const aesEncryption = new AesEncryption({ useHex: true });
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -33,22 +38,32 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
 
-      // 如果成功获取到 accessToken
-      if (accessToken) {
-        accessStore.setAccessToken(accessToken);
+      // 适配 v2 登录逻辑：密码加密
+      const password = encryptByMd5(params.password);
+      const encryptPassword = aesEncryption.encryptByAES(password);
 
-        // 获取用户信息并存储到 accessStore 中
-        const [fetchUserInfoResult, accessCodes] = await Promise.all([
-          fetchUserInfo(),
-          getAccessCodesApi(),
-        ]);
+      // 构建登录参数
+      const loginParams: LoginParams = {
+        account: params.username,
+        password: encryptPassword,
+        code: params.code,
+        origin: 'password',
+        timestamp: params.timestamp,
+        tsa_ticket: params.tsa_ticket,
+        goHome: true,
+      };
 
-        userInfo = fetchUserInfoResult;
+      // 调用登录 API
+      const res = await loginApi(loginParams);
+      const { token } = res.data;
 
-        userStore.setUserInfo(userInfo);
-        accessStore.setAccessCodes(accessCodes);
+      // 如果成功获取到 token
+      if (token) {
+        accessStore.setAccessToken(token);
+
+        // 获取用户信息
+        userInfo = await fetchUserInfo();
 
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false);
@@ -56,17 +71,31 @@ export const useAuthStore = defineStore('auth', () => {
           onSuccess
             ? await onSuccess?.()
             : await router.push(
-                userInfo.homePath || preferences.app.defaultHomePath,
+                userInfo?.homePath || preferences.app.defaultHomePath,
               );
         }
 
-        if (userInfo?.realName) {
+        if (userInfo?.name) {
           notification.success({
-            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.name}`,
             duration: 3,
             message: $t('authentication.loginSuccess'),
           });
         }
+
+        // 处理上次登录信息
+        if (userInfo?.prevLogin === 1) {
+          notification.open({
+            message: $t('sys.login.lastLoginInfo'),
+            description: `时间： ${userInfo.prevLoginTime || ''}<br>地点： ${userInfo.prevLoginIPAddressName || ''}<br>IP： ${userInfo.prevLoginIPAddress || ''}`,
+            placement: 'bottomRight',
+            style: { width: '300px' },
+          });
+        }
+      }
+    } catch (error: any) {
+      if (typeof error === 'string') {
+        message.error(error);
       }
     } finally {
       loginLoading.value = false;
@@ -79,7 +108,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function logout(redirect: boolean = true) {
     try {
-      await logoutApi();
+      await doLogout();
     } catch {
       // 不做任何处理
     }
@@ -98,7 +127,8 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function fetchUserInfo() {
-    const userInfo = await getUserInfoApi();
+    const res = await getUserInfo();
+    const userInfo = res.data;
     userStore.setUserInfo(userInfo);
     return userInfo;
   }
