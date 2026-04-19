@@ -1,6 +1,7 @@
 # 迁移修改记录
 
 ## 目录
+
 - [第一阶段：Logo/Title/Favicon 迁移](#第一阶段logotitlefavicon-迁移)
 - [第二阶段：登录页适配](#第二阶段登录页适配)
 
@@ -27,8 +28,8 @@
 
 #### 1.2 修改文件
 
-| 文件路径 | 说明 |
-| --- | --- |
+| 文件路径                         | 说明              |
+| -------------------------------- | ----------------- |
 | `apps/web-antd/src/api/index.ts` | 添加 biz API 导出 |
 
 ### 2. 从 v2 迁移的业务内容
@@ -53,17 +54,17 @@
 
 #### 2.2 加密解密工具
 
-| 函数 | 说明 |
-| --- | --- |
-| `AesEncryption` | AES 加密解密类 |
-| `encryptByMd5` | MD5 加密 |
-| `encryptByBase64` | Base64 加密 |
-| `decodeByBase64` | Base64 解密 |
+| 函数              | 说明           |
+| ----------------- | -------------- |
+| `AesEncryption`   | AES 加密解密类 |
+| `encryptByMd5`    | MD5 加密       |
+| `encryptByBase64` | Base64 加密    |
+| `decodeByBase64`  | Base64 解密    |
 
 #### 2.3 配置工具
 
-| 函数 | 说明 |
-| --- | --- |
+| 函数             | 说明                             |
+| ---------------- | -------------------------------- |
 | `useGlobSetting` | 全局配置 hook，包含 cipherKey 等 |
 
 ### 3. 版本兼容改造点
@@ -118,15 +119,15 @@
 
 ### 1. 新增文件
 
-| 文件路径 | 说明 |
-| --- | --- |
-| `apps/web-antd/public/logo.png` | 从 v2 复制的 logo |
+| 文件路径                           | 说明                 |
+| ---------------------------------- | -------------------- |
+| `apps/web-antd/public/logo.png`    | 从 v2 复制的 logo    |
 | `apps/web-antd/public/favicon.ico` | 从 v2 复制的 favicon |
 
 ### 2. 修改文件
 
-| 文件路径 | 说明 |
-| --- | --- |
+| 文件路径             | 说明                        |
+| -------------------- | --------------------------- |
 | `apps/web-antd/.env` | VITE_APP_TITLE=PASS开发平台 |
 
 ### 3. 迁移内容
