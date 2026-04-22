@@ -11,7 +11,7 @@ import {
   getLoginConfigApi,
   loginApi,
 } from '#/api/biz/basic';
-import { encryptByMd5, AesEncryption } from '#/utils/cipher';
+import { AesEncryption, encryptByMd5 } from '#/utils/cipher';
 
 interface LoginConfig {
   // 是否开启单点登录
