@@ -13,5 +13,4 @@ export {
   setCodeCertificateStatusApi,
   socialsLoginApi,
   unlockApi,
-} from './biz/basic/user';
-export * from './core';
+} from './user';

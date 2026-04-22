@@ -244,6 +244,7 @@ const { accessToken } = await requestClient.post(url, data);
 10. **组件库**：使用 v5 的 `@vben/common-ui` 和 `ant-design-vue` 4.x
 11. **API 响应格式差异**：v2 的 `res.data.token` 在 v5 中直接是 `res.token`（因为 responseReturn: 'data'）
 12. **requestClient 调用方式**：v5 使用 `requestClient.post(url, data, config)` 而不是 `requestClient.post({ url, data, ... })`
+13. **页面资源迁移**：每次迁移页面时，必须将页面中的 logo、标题等资源全部替换为 v2 项目中的对应资源
 
 ### 13.3 业务字段迁移规则
 

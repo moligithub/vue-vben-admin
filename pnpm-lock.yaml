@@ -180,9 +180,6 @@ catalogs:
     ant-design-vue:
       specifier: ^4.2.6
       version: 4.2.6
-    antdv-next:
-      specifier: ^1.1.9
-      version: 1.1.9
     archiver:
       specifier: ^7.0.1
       version: 7.0.1
@@ -240,9 +237,6 @@ catalogs:
     echarts:
       specifier: ^6.0.0
       version: 6.0.0
-    element-plus:
-      specifier: ^2.13.7
-      version: 2.13.7
     es-toolkit:
       specifier: ^1.45.1
       version: 1.45.1
@@ -321,9 +315,6 @@ catalogs:
     medium-zoom:
       specifier: ^1.1.0
       version: 1.1.0
-    naive-ui:
-      specifier: ^2.44.1
-      version: 2.44.1
     nitropack:
       specifier: ^2.13.3
       version: 2.13.3
@@ -426,9 +417,6 @@ catalogs:
     tailwindcss:
       specifier: ^4.2.2
       version: 4.2.2
-    tdesign-vue-next:
-      specifier: ^1.19.0
-      version: 1.19.0
     theme-colors:
       specifier: ^0.1.0
       version: 0.1.0
@@ -450,9 +438,6 @@ catalogs:
     unplugin-dts:
       specifier: ^1.0.0-beta.6
       version: 1.0.0-beta.6
-    unplugin-element-plus:
-      specifier: ^0.11.2
-      version: 0.11.2
     unplugin-vue:
       specifier: ^7.1.1
       version: 7.1.1
@@ -703,6 +688,9 @@ importers:
       ant-design-vue:
         specifier: 'catalog:'
         version: 4.2.6(vue@3.5.32(typescript@6.0.2))
+      crypto-js:
+        specifier: ^4.2.0
+        version: 4.2.0
       dayjs:
         specifier: 'catalog:'
         version: 1.11.20
@@ -715,6 +703,10 @@ importers:
       vue-router:
         specifier: 'catalog:'
         version: 5.0.4(@vue/compiler-sfc@3.5.32)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.32(typescript@6.0.2)))(vue@3.5.32(typescript@6.0.2))
+    devDependencies:
+      '@types/crypto-js':
+        specifier: ^4.2.2
+        version: 4.2.2
 
   apps/web-antdv-next:
     dependencies:
@@ -5456,6 +5448,9 @@ packages:
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
+
+  '@types/crypto-js@4.2.2':
+    resolution: {integrity: sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==}
 
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
@@ -14669,6 +14664,8 @@ snapshots:
     dependencies:
       '@types/deep-eql': 4.0.2
       assertion-error: 2.0.1
+
+  '@types/crypto-js@4.2.2': {}
 
   '@types/deep-eql@4.0.2': {}
 
